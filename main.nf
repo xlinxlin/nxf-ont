@@ -341,7 +341,7 @@ process porechop {
 
   when:
   //!params.skip_porechop
-  !params.skip_basecalling
+  !params.skip_basecalling && !params.skip_porechop
 
   script:
   //threads = params.cpus ? "--threads $params.cpus" : "--threads 4"
