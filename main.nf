@@ -117,7 +117,7 @@ if (!params.skip_demultiplexing) {
   if (params.csv) summary['csv'] = params.csv
 }
 summary['adapter trimming'] = params.skip_porechop ? 'No' : 'Yes'
-summary['quality control'] = params.skip_pycoqc ? 'seqkit': 'pycoQC & seqkit'
+summary['quality control'] = params.skip_basecalling || params.skip_demultiplexing || params.skip_pycoqc ? 'seqkit': 'pycoQC & seqkit'
 log.info summary.collect { k,v -> "${k.padRight(18)}: $v" }.join("\n")
 log.info "-\033[2m--------------------------------------------------\033[0m-"
 
@@ -297,7 +297,7 @@ if ( !params.skip_basecalling ) {
     file csv_file from ch_input_csv.ifEmpty([])
       
     output:
-    file "fastq/*.fastq" into ch_fastq, ch_for_seqkit
+    file "fastq/*.fastq.gz" into ch_fastq, ch_for_seqkit
     file "rename.log" into ch_log_rename
 
     script:
