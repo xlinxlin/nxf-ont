@@ -285,6 +285,8 @@ if ( !params.skip_basecalling ) {
     exit 1, "Please specify a valid run directory to perform rename process!" 
   }
 
+  ch_version_guppy  = Channel.empty()
+
   process rename_barcode {
     publishDir path: "${params.outdir}/renamed_barcodes", mode:'copy'
 
