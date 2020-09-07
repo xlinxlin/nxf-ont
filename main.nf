@@ -370,7 +370,7 @@ process pycoqc {
   file "pycoQC.html"
 
   when:
-  !params.skip_pycoqc && !params.skip_basecalling
+  !params.skip_basecalling && !params.skip_pycoqc
 
   script:
   """
