@@ -295,7 +295,7 @@ if ( !params.skip_basecalling ) {
     file csv_file from ch_input_csv.ifEmpty([])
       
     output:
-    file "fastq/*.fastq.gz" into ch_fastq, ch_for_seqkit
+    file "fastq/*.fastq" into ch_fastq, ch_for_seqkit
     file "rename.log" into ch_log_rename
 
     script:
@@ -308,18 +308,18 @@ if ( !params.skip_basecalling ) {
       for dir in barcode*/
       do
         dir=\${dir%*/}
-        cat \$dir/*.fastq.gz > \$fastqdir/fastq/\$dir.fastq.gz
+        cat \$dir/*.fastq > \$fastqdir/fastq/\$dir.fastq
       done
     else
-      cat *.fastq.gz > \$fastqdir/fastq/unclassified.fastq.gz
+      cat *.fastq > \$fastqdir/fastq/unclassified.fastq
     fi
 
-    if [ ! -z "$params.csv" ] && [ ! -z "$params.barcode_kits" ]
+    if [ ! -z "$params.csv" ]
     then
       while IFS=, read -r ob nb
       do
-        echo rename \$fastqdir/fastq/\$ob.fastq.gz to \$fastqdir/fastq/\$nb.fastq.gz &>> \$fastqdir/rename.log
-        mv \$fastqdir/fastq/\$ob.fastq.gz \$fastqdir/fastq/\$nb.fastq.gz
+        echo rename \$fastqdir/fastq/\$ob.fastq to \$fastqdir/fastq/\$nb.fastq &>> \$fastqdir/rename.log
+        mv \$fastqdir/fastq/\$ob.fastq \$fastqdir/fastq/\$nb.fastq
       done < \$fastqdir/$csv_file
     fi
     """
