@@ -364,7 +364,7 @@ process pycoqc {
   publishDir path: "${params.outdir}/pycoqc", mode:'copy'
   
   input:
-  file summary_file from params.skip_pycoqc ? Channel.empty(): ch_summary_guppy
+  file summary_file from params.skip_basecalling || params.skip_pycoqc ? Channel.empty(): ch_summary_guppy
 
   output:
   file "pycoQC.html"
