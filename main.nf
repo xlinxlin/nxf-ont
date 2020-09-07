@@ -47,7 +47,8 @@ nextflow run angelovangel/nxf-ont \
 -profile docker
   
 Mandatory arguments
-  --input [dir]                   The directory contains raw FAST5 files.
+  --input [dir]                   The directory contains FAST5/FASTQ files.
+  --outdir [dir]                  The output directory. (default: ./results)
   --csv [file]                    Comma-separated file containing pairs of sample names and barcodes. Only required for renaming.
   --cpus [int]                    Number of threads used for pipeline (default: 4)
   -profile [str]                  Configuration profile to use, available: docker.
@@ -99,6 +100,7 @@ if ( params.kit && !params.flowcell ) {
 
 def summary = [:]
 summary['input'] = params.input
+summary['outdir'] = params.outdir
 summary['cpus'] = params.cpus
 summary['basecalling'] = params.skip_basecalling ? 'No' : 'Yes'
 if (!params.skip_basecalling) {
@@ -320,6 +322,7 @@ if ( !params.skip_basecalling ) {
       do
         echo rename \$fastqdir/fastq/\$ob.fastq to \$fastqdir/fastq/\$nb.fastq &>> \$fastqdir/rename.log
         mv \$fastqdir/fastq/\$ob.fastq \$fastqdir/fastq/\$nb.fastq
+        pigz \$fastqdir/fastq/\$nb.fastq
       done < \$fastqdir/$csv_file
     fi
     """
