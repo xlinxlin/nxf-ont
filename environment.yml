@@ -1,0 +1,17 @@
+name: nxf-ont-1.1
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - porechop=0.2.4
+  - pycoqc=2.5.0.23
+  - seqkit=0.13.2
+  - r-base=4.0.2
+  - bioconductor-seqtools=1.22.0
+  - r-writexl=1.3.1
+  - r-kableextra=1.2.1
+  - r-formattable=0.2.0.1
+  - r-rmarkdown=2.3
+  - r-knitr=1.29
+  - r-dplyr=1.0.2
